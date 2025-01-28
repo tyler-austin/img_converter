@@ -1,0 +1,51 @@
+[project]
+name = "img_converter"
+version = "0.1.0"
+description = "misc image converters"
+authors = [
+    { name = "Tyler Austin", email = "tyler.e.austin@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow-heif (>=0.21.0,<0.22.0)",
+    "pillow (>=11.1.0,<12.0.0)",
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.32.2"
+ruff = "^0.9.3"
+
+[tool.ruff]
+include = ["*.py", "*.pyi", "*.ipynb", "**/*.toml"]
+
+[tool.poe.tasks.convert_img]
+script = "main:main"
+args = [
+    { name = "fmt", options = ["-f", "--fmt"], type = "string", help = "Output format" },
+    { name = "path", options = ["-p", "--path"], type = "string", help = "Path to the input image" }
+]
+
+[tool.poe.tasks.lint]
+help = "Check codebase for linting and formatting errors"
+cmd = "ruff check ${path} --config ${config} ${fix}"
+
+[[tool.poe.tasks.lint.args]]
+name = "path"
+help = "Path to the codebase"
+type = "string"
+default = "."
+positional = true
+required = false
+
+[[tool.poe.tasks.lint.args]]
+name = "config"
+help = "Path to the ruff config file"
+options = ["-c", "--config"]
+type = "string"
+default = ".ruff.toml"
+required = false
