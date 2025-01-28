@@ -1,4 +1,4 @@
-# austyle_img
+# img_converter
 
 ### Description
 Don't you hate it when you take a photo with your iPhone and it saves as a .heic file?
